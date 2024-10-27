@@ -21,8 +21,11 @@ class UnitNotifier extends StateNotifier<List<Unit>> {
 
   void loadUnit(level) async {
     List<Unit> units = await fetchAllUnitByLevel(level);
+    // print(level);
+    // print(units);
     state = units;
   }
+
 }
 
 final unitProvider = StateNotifierProvider<UnitNotifier, List<Unit>>((ref) {

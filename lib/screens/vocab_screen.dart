@@ -4,11 +4,8 @@ import 'package:kotoba/models/vocab.dart';
 import 'package:kotoba/screens/question_screen.dart';
 import 'package:kotoba/screens/vocab_details_screen.dart';
 import 'package:kotoba/widgets/flash_card.dart';
-import 'package:kotoba/widgets/vocab_list.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import '../data/database_helper.dart';
-import '../methods/show_alert_dialog.dart';
-import '../network/http_controller.dart';
 import '../providers/provider.dart';
 
 class VocabScreen extends ConsumerStatefulWidget {
@@ -83,6 +80,7 @@ class _VocabScreenState extends ConsumerState<VocabScreen>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Vocabulary'),
@@ -131,8 +129,6 @@ class _VocabScreenState extends ConsumerState<VocabScreen>
           ),
           PopupMenuButton(
             onSelected: (value) {
-              // Handle the selected menu item here
-              // print('Selected: $value');
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (ctx) =>
@@ -156,8 +152,8 @@ class _VocabScreenState extends ConsumerState<VocabScreen>
               _buildPopupMenuItem('Kanji Test 4', Icons.book_rounded, 4),
               _buildPopupMenuItem('Meaning Test 1', Icons.book_rounded, 5),
               _buildPopupMenuItem('Meaning Test 2', Icons.book_rounded, 6),
-              _buildPopupMenuItem('Meaning Test 1', Icons.book_rounded, 7),
-              _buildPopupMenuItem('Meaning Test 2', Icons.book_rounded, 8),
+              _buildPopupMenuItem('Meaning Test 3', Icons.book_rounded, 7),
+              _buildPopupMenuItem('Meaning Test 4', Icons.book_rounded, 8),
             ],
           ),
         ],

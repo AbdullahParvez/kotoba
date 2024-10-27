@@ -20,10 +20,12 @@ List<CardItem> getMeaningList(details) {
         senseMap['ex_text'] = sen['example'][0]['ex_text'];
         senseMap['ex_sent_jpn'] = sen['example'][0]['ex_sent_jpn'];
         senseMap['ex_sent_eng'] = sen['example'][0]['ex_sent_eng'];
+        senseMap['tokens'] = sen['example'][0]['tokens'];
       } else {
         senseMap['ex_text'] = '';
         senseMap['ex_sent_jpn'] = '';
         senseMap['ex_sent_eng'] = '';
+        senseMap['tokens'] = {};
       }
       senseList.add(senseMap);
     }

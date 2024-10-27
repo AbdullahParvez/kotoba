@@ -1,14 +1,7 @@
-// import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:kotoba/data/database_helper.dart';
 import 'package:kotoba/screens/home_screen.dart';
-// import 'package:flutter/services.dart' as root_bundle;
-// import 'package:kotoba/data/database_helper.dart';
-import 'package:kotoba/screens/unit_screen.dart';
-import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-
-// import '../models/vocab.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -26,7 +19,7 @@ class _SplashPageState extends State<SplashPage> {
 
  Future<bool> loadDb() async {
     bool created = await createDatabase();
-    // if (!context.mounted) return;
+    if (!mounted) return false;
     Navigator.push(context, MaterialPageRoute(builder: (context){
       return const HomeScreen();
     }));

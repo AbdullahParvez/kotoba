@@ -58,20 +58,10 @@ class _QuestionScreenState extends State<QuestionScreen> {
     question = questions[qNo]['question'];
     correctAnswer = questions[qNo]['correctAnswer'];
     optionList = questions[qNo]['options'];
-    // givenAnswer = questions[qNo]['givenAnswer'];
-
     void onSelectCard(int optionNo, String text) {
       Color cardColor = Colors.blue;
-      // if (text == correctAnswer) {
-      //   cardColor = Colors.green;
-      // } else {
-      //   cardColor = Colors.red;
-      // }
-      // print(widget.vocabs[itemCount].pronunciation);
       setState(() {
         givenAnswer = text;
-        // print(givenAnswer);
-        // questions[qNo]['givenAnswer'] = text;
         if (optionNo == 1) {
           setOptionBackgroundColor(optionOneColor: cardColor);
         } else if (optionNo == 2) {
@@ -92,6 +82,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
       if (result) {
         return ResultScreen(
           questions: questions,
+          testNo: widget.testNo,
         );
       } else {
         return getQuestionWidget(screen, onSelectCard);
@@ -222,31 +213,90 @@ class _QuestionScreenState extends State<QuestionScreen> {
           ),
           SizedBox(
             height: screen.height * 0.06,
-            child: ElevatedButton.icon(
-              onPressed: () {
-                if (qNo >= questions.length - 1) {
-                  setState(() {
-                    questions[qNo]['givenAnswer'] = givenAnswer;
-                    result = true;
-                  });
-                } else {
-                  setState(() {
-                    questions[qNo]['givenAnswer'] = givenAnswer;
-                    qNo++;
-                    setOptionBackgroundColor();
-                  });
-                }
-              },
-              icon: const Icon(
-                Icons.done_all,
-                size: 40.0,
-              ),
-              label: const Text(
-                'Select',
-                style: TextStyle(
-                  fontSize: 20,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                // IconButton(
+                //   iconSize: 40,
+                //   splashRadius: 50,
+                //   icon: const Icon(
+                //     Icons.keyboard_double_arrow_left,
+                //     color: Colors.lightBlueAccent,
+                //   ),
+                //   tooltip: 'Previous Question',
+                //   onPressed: () {
+                //     setState(
+                //       () {
+                //         if (qNo > 1) {
+                //           qNo--;
+                //           setOptionBackgroundColor();
+                //         }
+                //       },
+                //     );
+                //   },
+                // ),
+                ElevatedButton.icon(
+                  onPressed: () {
+                    if (qNo >= questions.length - 1) {
+                      setState(() {
+                        questions[qNo]['givenAnswer'] = givenAnswer;
+                        result = true;
+                      });
+                    } else {
+                      setState(() {
+                        questions[qNo]['givenAnswer'] = givenAnswer;
+                        qNo++;
+                        setOptionBackgroundColor();
+                      });
+                    }
+                    // setState(
+                    //   () {
+                    //     questions[qNo]['givenAnswer'] = givenAnswer;
+                    //   },
+                    // );
+                  },
+                  icon: const Icon(
+                    Icons.done_all,
+                    size: 40.0,
+                  ),
+                  label: const Text(
+                    'Select',
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
+                  ),
                 ),
-              ),
+                // IconButton(
+                //   iconSize: 40,
+                //   splashRadius: 50,
+                //   icon: const Icon(
+                //     Icons.keyboard_double_arrow_right,
+                //     color: Colors.lightBlueAccent,
+                //   ),
+                //   tooltip: 'Previous Question',
+                //   onPressed: () {
+                //     setState(
+                //       () {
+                //         if (qNo >= questions.length - 1) {
+                //           setState(
+                //             () {
+                //               result = true;
+                //             },
+                //           );
+                //         } else {
+                //           setState(
+                //             () {
+                //               qNo++;
+                //               setOptionBackgroundColor();
+                //             },
+                //           );
+                //         }
+                //       },
+                //     );
+                //   },
+                // ),
+              ],
             ),
           ),
         ],

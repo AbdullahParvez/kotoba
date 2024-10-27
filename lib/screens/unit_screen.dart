@@ -18,10 +18,11 @@ class UnitScreen extends ConsumerStatefulWidget {
 class _UnitScreenState extends ConsumerState<UnitScreen> {
   // List<Unit> _units = [];
   bool showSpinner = false;
-  loadLevel()  {
+  loadLevel()  async {
     // List<Unit> units = await fetchAllUnitByLevel(widget.level);
+    // print('object');
     ref.read(unitProvider.notifier).loadUnit(widget.level);
-
+    // print(units);
   }
 
   @override
@@ -47,6 +48,7 @@ class _UnitScreenState extends ConsumerState<UnitScreen> {
     //   print(u.no.toString());
     // }
     List<Unit> units = ref.watch(unitProvider);
+    // print(units);
     if (units.isNotEmpty){
       setState(() {
         showSpinner = false;

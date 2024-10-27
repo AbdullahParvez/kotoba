@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kotoba/methods/flexible_rich_text.dart';
+import 'package:kotoba/widgets/styled_text_widget.dart';
+
 
 class ExampleCard extends StatelessWidget {
   final Map<String, dynamic> senseMap;
@@ -13,6 +14,9 @@ class ExampleCard extends StatelessWidget {
     String exText = senseMap['ex_text'];
     String exSentJpn = senseMap['ex_sent_jpn'];
     String exSentEng = senseMap['ex_sent_eng'];
+    Map<String, dynamic> tokens = senseMap['tokens'];
+    print(tokens);
+
     return SizedBox(
       width: double.infinity,
       child: Card(
@@ -37,7 +41,12 @@ class ExampleCard extends StatelessWidget {
                 const SizedBox(height: 4.0),
               ],
               if (exSentJpn != '') ...[
-                buildStyledText(exSentJpn, exText),
+                // buildStyledText(exSentJpn, exText),
+                StyledTextWidget(
+                  mainSentence: exSentJpn,
+                  compareText: exText,
+                  stokens: tokens,
+                ),
                 const SizedBox(height: 4.0),
               ],
               if (exSentEng != '') ...[

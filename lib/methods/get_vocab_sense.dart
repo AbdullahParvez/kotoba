@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../widgets/flexible_text_widget.dart';
-import 'flexible_rich_text.dart';
+import '../widgets/styled_text_widget.dart';
 
 List<Widget> getSense(sen) {
   List<Widget> tempList = [];
@@ -30,11 +30,17 @@ List<Widget> getSense(sen) {
     tempList.add(const SizedBox(
       height: 10,
     ));
-    Flexible styledJapaneseSentence = buildStyledText(
-        sen['example'][0]['ex_sent_jpn'], sen['example'][0]['ex_text']);
+    // Flexible styledJapaneseSentence = buildStyledText(
+    //     sen['example'][0]['ex_sent_jpn'], sen['example'][0]['ex_text']);
     tempList.add(
       Row(
-        children: [styledJapaneseSentence],
+        children: [
+          StyledTextWidget(
+            mainSentence: sen['example'][0]['ex_sent_jpn'],
+            compareText: sen['example'][0]['ex_text'],
+          )
+        ],
+        // children: [styledJapaneseSentence],
       ),
     );
 

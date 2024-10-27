@@ -4,7 +4,6 @@ import 'package:kotoba/providers/provider.dart';
 import 'package:kotoba/screens/vocab_screen.dart';
 import 'package:kotoba/widgets/item_grid.dart';
 
-import '../data/database_helper.dart';
 import '../models/vocab.dart';
 
 class SetScreen extends ConsumerStatefulWidget {

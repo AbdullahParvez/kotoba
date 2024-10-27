@@ -48,16 +48,18 @@ class _VocabDetailsScreenState extends State<VocabDetailsScreen> {
         word = word.split('/')[0];
       }
       List<dynamic> wordDetails = await getVocabDetails(word);
+      print(wordDetails);
       setState(
         () {
           details = wordDetails;
           showSpinner = false;
         },
       );
-    } on Exception catch (e) {
+    } on Exception {
       setState(() {
         showSpinner = false;
       });
+      if (!mounted) return;
       showAlertDialog(context);
     }
   }
@@ -97,7 +99,7 @@ class _VocabDetailsScreenState extends State<VocabDetailsScreen> {
           ),
         ),
       );
-    } on Exception catch (e) {
+    } on Exception {
       setState(() {
         showSpinner = false;
       });

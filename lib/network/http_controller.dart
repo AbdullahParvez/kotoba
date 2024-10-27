@@ -1,9 +1,9 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
-const String base = "http://172.104.96.104/";
+// const String base = "http://172.104.96.104/";
+const String base = "https://ampreader.xyz/";
 const String vocabDetailsEndpoint = "api/vocab_details/";
 const String kanjiDetailsEndpoint = "kanji/api/kanji_details/";
 

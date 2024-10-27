@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:kotoba/screens/set_screen.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
 
 class GridItem extends StatelessWidget {
   const GridItem(
-      {super.key, required this.level, required this.id, required this.color, required this.onSelectCard});
+      {super.key,
+      required this.level,
+      required this.id,
+      required this.color,
+      required this.onSelectCard});
 
   final String level;
   final int id;
@@ -43,29 +46,29 @@ class GridItem extends StatelessWidget {
       },
       splashColor: Theme.of(context).primaryColor,
       borderRadius: BorderRadius.circular(16),
-        // child:Card(
-        //   // Customize your card as needed
-        //   child: Column(
-        //     children: [
-        //       // Other card content
-        //       SizedBox(
-        //         height: 100, // Adjust height as needed
-        //         child: WaveWidget(
-        //           config: CustomConfig(
-        //             gradients: [
-        //               [Colors.blue, Colors.blueAccent],
-        //             ],
-        //             durations: [5000],
-        //             heightPercentages: [.1], // Set the progress level
-        //             blur: const MaskFilter.blur(BlurStyle.solid, 5),
-        //           ),
-        //           waveAmplitude: .5,
-        //           size: const Size(double.infinity, .5), // Adjust size as needed
-        //         ),
-        //       ),
-        //     ],
-        //   ),
-        // ),
+      // child:Card(
+      //   // Customize your card as needed
+      //   child: Column(
+      //     children: [
+      //       // Other card content
+      //       SizedBox(
+      //         height: 100, // Adjust height as needed
+      //         child: WaveWidget(
+      //           config: CustomConfig(
+      //             gradients: [
+      //               [Colors.blue, Colors.blueAccent],
+      //             ],
+      //             durations: [5000],
+      //             heightPercentages: [.1], // Set the progress level
+      //             blur: const MaskFilter.blur(BlurStyle.solid, 5),
+      //           ),
+      //           waveAmplitude: .5,
+      //           size: const Size(double.infinity, .5), // Adjust size as needed
+      //         ),
+      //       ),
+      //     ],
+      //   ),
+      // ),
       child: Container(
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
@@ -83,7 +86,7 @@ class GridItem extends StatelessWidget {
           child: Text(
             level,
             style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                  color: Theme.of(context).colorScheme.onBackground,
+                  color: Theme.of(context).colorScheme.onSurface,
                   fontSize: 40,
                 ),
           ),
@@ -92,7 +95,6 @@ class GridItem extends StatelessWidget {
     );
   }
 }
-
 
 Widget buildProgressCard(double progress) {
   return Card(

@@ -2,13 +2,22 @@ import 'dart:convert';
 import 'package:csv/csv.dart';
 import 'package:kotoba/models/vocab.dart';
 import 'package:path/path.dart' as path;
-import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
+// import 'package:sqflite_common_ffi/sqflite_ffi.dart'; // Import sqflite_common_ffi
 import 'package:flutter/services.dart' as root_bundle;
-import 'package:sqflite/sqflite.dart';
 
 Future<Database> _getDatabase() async {
+  // Initialize databaseFactory with databaseFactoryFfi
+  // sqfliteFfiInit();
+  // databaseFactory = databaseFactoryFfi;
+  // print('Ok pai');
   final dbPath = await getDatabasesPath();
+  // final dbFilePath = path.join(dbPath, 'kotoba.db');
+  // if (await File(dbFilePath).exists()) {
+  //   // print('Database already exists');
+  //   // return true;
+  // }
+  // print(dbPath);
   final db = await openDatabase(
     path.join(dbPath, 'kotoba.db'),
     onCreate: (db, version) async {
@@ -59,16 +68,21 @@ Future<Database> _getDatabase() async {
           "INSERT INTO jlpt ('levelId', 'level') values (?, ?)", [5, "N5"]);
       // print('Created');
       await _loadVocab(db, 5);
+      // print('Loaded 5');
       await _loadVocab(db, 4);
+      // print('Loaded 4');
       await _loadVocab(db, 3);
+      // print('Loaded 3');
       await _loadVocab(db, 2);
+      // print('Loaded 2');
       await _loadVocab(db, 1);
+      // print('Loaded 1');
       await _loadKanji(db);
       // print('Loaded');
     },
     version: 1,
   );
-
+// print('Database Loaded');
   return db;
 }
 
@@ -76,6 +90,7 @@ _loadVocab(Database db, int level) async {
   // print('Loading.....');
   final String response = await root_bundle.rootBundle
       .loadString('assets/json/n${level}_vocab_data.json');
+  // print(response);
   final data = await json.decode(response);
   Batch batch = db.batch();
   for (Map<String, dynamic> d in data) {
@@ -98,10 +113,13 @@ _loadVocab(Database db, int level) async {
             'meaning': vocab['meaning'],
             'chapter': innValue['id'],
           });
+          // print(vocab['word']);
         }
       });
     });
-    var results = await batch.commit();
+    await batch.commit();
+    // var results = await batch.commit();
+    // print(results);
   }
 }
 
@@ -145,6 +163,7 @@ Future<bool> createDatabase() async {
 Future<List<Unit>> fetchAllUnitByLevel(int level) async {
   // print('All Unit');
   final db = await _getDatabase();
+  // print(db);
   List<Map<String, dynamic>> units =
       await db.query("unit", where: "level = ?", whereArgs: [level]);
   // print(units);
@@ -188,7 +207,7 @@ Future<List<Vocab>> fetchAllVocabBySet(int set) async {
   });
 }
 
-Future<dynamic> getVocab(vocab) async {
+Future<Vocab?> getVocab(vocab) async {
   final db = await _getDatabase();
   List<Map<String, dynamic>> details =
   await db.query("vocab", where: "word = ?", whereArgs: [vocab.trim()]);
@@ -201,6 +220,7 @@ Future<dynamic> getVocab(vocab) async {
       set: details[0]['chapter'],
     );
   }
+  return null;
 }
 
 Future<QuestionSet> getQuesSet(int no) async {
@@ -217,7 +237,7 @@ Future<QuestionSet> getQuesSet(int no) async {
 
 Future<void> updateSetCheckCompleted(int id, QuestionSet questionSet) async {
   // Get a reference to the database.
-  final db = await _getDatabase();;
+  final db = await _getDatabase();
 
   await db.update(
     'chapter',

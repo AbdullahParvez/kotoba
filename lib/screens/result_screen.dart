@@ -1,8 +1,13 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
+import '../widgets/word_details.dart';
+
 class ResultScreen extends StatelessWidget {
-  const ResultScreen({super.key, required this.questions});
+  const ResultScreen(
+      {super.key, required this.questions, required this.testNo});
   final List<Map<String, dynamic>> questions;
+  final int testNo;
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -14,14 +19,15 @@ class ResultScreen extends StatelessWidget {
           children: [
             Card(
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  side: const BorderSide(
-                    color: Colors.blueGrey,
-                  )),
+                borderRadius: BorderRadius.circular(10),
+                side: const BorderSide(
+                  color: Colors.blueGrey,
+                ),
+              ),
               color: Colors.greenAccent[50],
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: buildResultColumn(index),
+                child: buildResultColumn(index, context),
               ),
             ),
           ],
@@ -30,38 +36,97 @@ class ResultScreen extends StatelessWidget {
     );
   }
 
-  Column buildResultColumn(int index) {
+  Column buildResultColumn(int index, BuildContext context) {
     var question = questions[index]['question'];
     var options = questions[index]['options'];
     var givenAnswer = questions[index]['givenAnswer'];
     var correctAnswer = questions[index]['correctAnswer'];
 
+    List<RichText> optionsWidget = [];
+
     Text questionText = Text(
       question,
       style: const TextStyle(
-        fontSize: 30,
-      ),
-    );
-    int optionCount = 1;
-    String optionString = '';
-    for (var option in options){
-      optionString = '$optionString ${optionCount.toString()}. $option \n';
-      optionCount++;
-    }
-    Text optionText = Text(
-      // 'Option(${options.join(',  ')})',
-      optionString,
-      style: const TextStyle(
-        fontSize: 16,
-        color: Colors.blue,
+        fontSize: 24,
+        color: Colors.blueGrey,
       ),
     );
 
+    RichText questionTextJpn = RichText(
+      text: TextSpan(
+        text: question,
+        style: const TextStyle(
+          fontSize: 24,
+          color: Colors.blueGrey,
+        ),
+        recognizer: TapGestureRecognizer()
+          ..onTap = () {
+            showDialog(
+              context: context,
+              builder: (context) => WordDetails(
+                vocab: question,
+              ),
+            );
+          },
+      ),
+    );
+
+    int optionCount = 1;
+
+    for (var option in options) {
+      List<InlineSpan> textSpans = [];
+      TextSpan tempCountSpan = TextSpan(
+        text: '$optionCount. ',
+        style: TextStyle(
+          fontSize: 16,
+          color: Colors.blue[800],
+        ),
+      );
+      textSpans.add(tempCountSpan);
+
+      TextSpan tempTextSpan;
+      if ([1, 2, 5, 6].contains(testNo)) {
+        tempTextSpan = TextSpan(
+          text: option,
+          style: TextStyle(
+            fontSize: 16,
+            color: Colors.blue[800],
+          ),
+        );
+      } else {
+        tempTextSpan = TextSpan(
+          text: option,
+          style: TextStyle(
+            fontSize: 16,
+            color: Colors.blue[800],
+          ),
+          recognizer: TapGestureRecognizer()
+            ..onTap = () {
+              showDialog(
+                context: context,
+                builder: (context) => WordDetails(
+                  vocab: option + '\n',
+                ),
+              );
+            },
+        );
+      }
+      textSpans.add(tempTextSpan);
+
+      optionsWidget.add(
+        RichText(
+          text: TextSpan(
+            children: textSpans,
+          ),
+        ),
+      );
+      optionCount++;
+    }
     Text correctAnswerText = Text(
       'Correct Answer : $correctAnswer',
-      style: const TextStyle(
+      style: TextStyle(
         fontSize: 20,
-        color: Colors.green,
+        color: Colors.green[900],
       ),
     );
 
@@ -69,38 +134,29 @@ class ResultScreen extends StatelessWidget {
     if (givenAnswer == correctAnswer) {
       givenAnswerText = Text(
         'Selected Answer : $givenAnswer',
-        style: const TextStyle(
+        style: TextStyle(
           fontSize: 20,
-          color: Colors.green,
+          color: Colors.green[900],
         ),
       );
     } else {
       givenAnswerText = Text(
         'Selected Answer : $givenAnswer',
-        style: const TextStyle(
+        style: TextStyle(
           fontSize: 20,
-          color: Colors.red,
+          color: Colors.red[900],
         ),
       );
     }
 
-    if (givenAnswer == correctAnswer) {
-      return Column(
-        children: [
-          questionText,
-          optionText,
-          givenAnswerText,
-        ],
-      );
-    } else {
-      return Column(
-        children: [
-          questionText,
-          optionText,
-          givenAnswerText,
-          correctAnswerText,
-        ],
-      );
-    }
+    return Column(
+      children: [
+        if ([1, 2, 5, 6].contains(testNo)) questionTextJpn,
+        if ([3, 4, 7, 8].contains(testNo)) questionText,
+        ...optionsWidget,
+        givenAnswerText,
+        if (givenAnswer != correctAnswer) correctAnswerText
+      ],
+    );
   }
 }
